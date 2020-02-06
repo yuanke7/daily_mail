@@ -1,9 +1,7 @@
-import time
 from pathlib import Path
 from PIL import Image
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.support.wait import WebDriverWait
 from selenium.common.exceptions import TimeoutException
 
 
@@ -44,15 +42,13 @@ class Driver:
         """
         try:
             self.chrome.get(url=url)
-            time.sleep(1)
-            self.chrome.maximize_window()
+            self.chrome.set_window_size(1920, 1080)
             self.chrome.save_screenshot(filename)
             if div_id is not None:
                 elem = self.chrome.find_element_by_class_name(div_id)
                 left, top = elem.location['x'], elem.location['y']
                 size_w, size_h = elem.size['width'], elem.size['height']
-                print(left, top, size_h, size_w)
-                box = (left, top, left + size_w, top + size_h)
+                box = (left, top, left + size_w, top + 507)  # 507 为写死的高度
                 self.img_crop(filename, box)
         except TimeoutException as e:
             print(f'Exception in loading page. errors: {e}')
@@ -88,6 +84,6 @@ class Driver:
 if __name__ == "__main__":
     d = Driver()
     u = "https://www.xzw.com/fortune/cancer/"
-    f = "./a.png"
+    f = "../var/a.png"
     div = "c_main"
     d.save_screenshot(u, f, div)
