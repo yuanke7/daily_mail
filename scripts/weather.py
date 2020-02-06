@@ -77,4 +77,5 @@ def get_days_wea(soup: BeautifulSoup) -> List[Weather]:
 if __name__ == '__main__':
     html = get_weather_html()
     print(get_tips(html))
-    print(get_days_wea(html))
+    for w in get_days_wea(html):
+        print(w)
