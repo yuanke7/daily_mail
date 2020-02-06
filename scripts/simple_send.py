@@ -1,3 +1,11 @@
+import smtplib
+from email.mime.text import MIMEText
+from email.header import Header
+
+sender = ""
+receivers = [""]
+
+mail_msg = """
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,3 +76,21 @@
 </div>
 </body>
 </html>
+"""
+
+message = MIMEText(mail_msg, 'html', 'utf-8')
+message['From'] = sender
+message['To'] = receivers[0]
+
+subject = "嘿"
+message['Subject'] = Header(subject, 'utf-8')
+
+try:
+    smtpObj = smtplib.SMTP("smtp.qq.com")
+    smtpObj.set_debuglevel(1)
+    smtpObj.ehlo("smtp.qq.com")
+    smtpObj.login(sender, "pwd")
+    smtpObj.sendmail(sender, receivers, message.as_string())
+    print("邮件发送成功")
+except smtplib.SMTPException:
+    print("Error: 无法发送邮件")
