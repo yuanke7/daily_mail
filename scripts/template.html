@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>嘿</title>
+</head>
+<body>
+
+</body>
+</html>
+
+提示
+//div[@class='left']/div[@class='wea_tips clearfix']/em/text()
+select(".left > .wea_tips.clearfix > em")[0].get_text()
+
+今日天气
+//div[@class='left']/div[@class='wrap clearfix']/div[@class='left']/div[@class='forecast clearfix']/ul[@class='days clearfix']/li
+
+今日温度
+soup.select(".wrap.clearfix")[2].select(".left > .forecast.clearfix > .days.clearfix")[0].select("li")[2].get_text()
