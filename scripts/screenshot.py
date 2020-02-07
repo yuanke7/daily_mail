@@ -95,10 +95,10 @@ class Driver:
 if __name__ == "__main__":
     d = Driver()
 
-    # u = "https://www.xzw.com/fortune/cancer/"
-    # f = "../var/a.png"
-    # _class = "c_main"
-    # d.save_screenshot(u, f, _class, height=507)
+    u = "https://www.xzw.com/fortune/cancer/"
+    f = "../var/xinzuowu.png"
+    _class = "c_main"
+    d.save_screenshot(u, f, _class, height=535)
 
     u = "http://wufazhuce.com/"
     f = "../var/one.png"
