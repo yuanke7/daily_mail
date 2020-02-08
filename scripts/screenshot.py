@@ -1,3 +1,4 @@
+import base64
 from pathlib import Path
 from PIL import Image
 from selenium import webdriver
@@ -99,6 +100,11 @@ class Driver:
         with Image.open(filename) as img:
             img = img.crop(box)
             img.save(output)
+
+    @staticmethod
+    def to_base64(filename) -> str:
+        with open(filename, "rb") as f:
+            return base64.b64encode(f.read()).decode("utf-8")
 
 
 if __name__ == "__main__":

@@ -1,6 +1,7 @@
 """
     屏幕截图模块
 """
+import base64
 from typing import Optional, Tuple
 
 from PIL import Image
@@ -16,6 +17,7 @@ class Driver:
     def __init__(self):
         self.driver_path: str = self.DEFAULT_DRIVER
         self.driver: Optional[Chrome] = None
+        self.initial()
 
     def __enter__(self) -> "Driver":
         return self
@@ -97,5 +99,11 @@ class Driver:
             img = img.crop(box)
             img.save(output)
 
-
-webdriver = Driver()
+    @staticmethod
+    def to_base64(filename: str) -> str:
+        """
+        图片转 base64
+        :param filename: 图片地址
+        """
+        with open(filename, "rb") as f:
+            return base64.b64encode(f.read()).decode("utf-8")
