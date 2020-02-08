@@ -11,3 +11,10 @@ Email
 - [星座屋](https://www.xzw.com/) 
 - [一言](https://hitokoto.cn/)
 
+
+样例
+----
+
+邮件内容样式
+
+![demo](img/demo.jpg)
