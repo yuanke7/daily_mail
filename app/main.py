@@ -1,7 +1,11 @@
 """
     拼接并发送邮件
 """
+import smtplib
 from datetime import datetime
+from email.mime.text import MIMEText
+from email.header import Header
+from email.utils import formataddr
 
 import requests
 from jinja2 import Environment, PackageLoader
@@ -94,6 +98,28 @@ def get_image_code() -> Image:
     return img
 
 
+def send_email(html):
+    def _format_address(name, addr):
+        return formataddr((Header(name, "utf-8").encode(), addr))
+
+    message = MIMEText(html, "html", "utf-8")
+    message["From"] = _format_address("Ik", config.sender)
+    message["To"] = _format_address("柠柠", config.receiver)
+
+    subject = "嘿"
+    message["Subject"] = Header(subject, "utf-8")
+
+    try:
+        smtp_obj = smtplib.SMTP("smtp.qq.com")
+        smtp_obj.set_debuglevel(1)
+        smtp_obj.ehlo("smtp.qq.com")
+        smtp_obj.login(config.sender, config.email_password)
+        smtp_obj.sendmail(config.sender, [config.receiver], message.as_string())
+        print("邮件发送成功")
+    except smtplib.SMTPException:
+        print("Error: 无法发送邮件")
+
+
 def handler():
     """
     流程处理函数
@@ -101,9 +127,9 @@ def handler():
 
     # HTML 文件
     html = render_html()
-    print(html)
 
     # 下发邮件
+    send_email(html)
 
 
 if __name__ == "__main__":
