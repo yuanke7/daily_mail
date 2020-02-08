@@ -111,7 +111,6 @@ def send_email(html):
 
     try:
         smtp_obj = smtplib.SMTP("smtp.qq.com")
-        smtp_obj.set_debuglevel(1)
         smtp_obj.ehlo("smtp.qq.com")
         smtp_obj.login(config.sender, config.email_password)
         smtp_obj.sendmail(config.sender, [config.receiver], message.as_string())
