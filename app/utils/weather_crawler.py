@@ -1,14 +1,17 @@
 """
-    墨迹天气爬虫
+    墨迹天气爬虫模块
 """
+
 from typing import Optional, List
 from dataclasses import dataclass
 
 import requests
 from bs4 import BeautifulSoup
 
+import config
+
 BASE_URL = "https://tianqi.moji.com/weather/"
-AREA = "china/beijing/chaoyang-district"
+AREA = config.AREA
 
 AIR_BACK_COLOR = {
     "level_1": "#8fc31f",
@@ -29,6 +32,9 @@ class Weather:
     wind: str
     air: str
     air_level: str
+
+    def get_air_color(self):
+        return AIR_BACK_COLOR.get(self.air_level)
 
 
 def get_weather_html() -> Optional[BeautifulSoup]:
@@ -74,10 +80,3 @@ def get_days_wea(soup: BeautifulSoup) -> List[Weather]:
         )
 
     return data_set
-
-
-if __name__ == "__main__":
-    html = get_weather_html()
-    print(get_tips(html))
-    for w in get_days_wea(html):
-        print(w)

@@ -1,46 +1,48 @@
-from pathlib import Path
+"""
+    屏幕截图模块
+"""
+from typing import Optional, Tuple
+
 from PIL import Image
-from selenium import webdriver
+from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
 
 
 class Driver:
-    """ selenium web driver instance """
+    """ WebDriver instance """
 
     DEFAULT_DRIVER = "chromedriver"
 
     def __init__(self):
-        self.driver_path = "chromedriver"
-        self.chrome = None
-        self.initial()
+        self.driver_path: str = self.DEFAULT_DRIVER
+        self.driver: Optional[Chrome] = None
 
-    def __enter__(self):
+    def __enter__(self) -> "Driver":
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(self, exc_type, exc_val, exc_tb) -> None:
         self.close()
 
-    def initial(self):
-        if self.chrome is None:
-            options = Options()
-            options.headless = True
-            if Path(self.driver_path).exists():
-                executable_path = self.driver_path
-            else:
-                executable_path = self.DEFAULT_DRIVER
-            self.chrome = webdriver.Chrome(
-                executable_path=executable_path, options=options
-            )
+    def close(self) -> None:
+        """ 关闭模拟浏览器 """
+        if self.driver is not None:
+            print("Begin close...")
+            self.driver.quit()
+
+    def initial(self) -> None:
+        options = Options()
+        options.headless = True
+        self.driver = Chrome(executable_path=self.driver_path, options=options)
 
     def save_screenshot(
         self,
-        url,
-        filename,
-        class_name=None,
-        top=None,
-        left=None,
-        width=None,
-        height=None,
+        url: str,
+        filename: str,
+        class_name: Optional[str] = None,
+        top: Optional[int] = None,
+        left: Optional[int] = None,
+        width: Optional[int] = None,
+        height: Optional[int] = None,
     ):
         """
         :param url: 访问地址
@@ -53,11 +55,12 @@ class Driver:
         :return:
         """
         try:
-            self.chrome.get(url=url)
-            self.chrome.set_window_size(1920, 1080)
-            self.chrome.save_screenshot(filename)
+            self.driver.get(url=url)
+            self.driver.set_window_size(1920, 1080)
+            self.driver.save_screenshot(filename)
             if class_name is not None:
-                elem = self.chrome.find_element_by_class_name(class_name)
+
+                elem = self.driver.find_element_by_class_name(class_name)
                 _left, _top = elem.location["x"], elem.location["y"]
                 size_w, size_h = elem.size["width"], elem.size["height"]
                 _right, _down = _left + size_w, _top + size_h
@@ -79,14 +82,8 @@ class Driver:
         else:
             return True
 
-    def close(self):
-        """ 关闭模拟浏览器 """
-        if self.chrome is not None:
-            print("Begin close...")
-            self.chrome.quit()
-
     @staticmethod
-    def img_crop(filename, box, output=None):
+    def img_crop(filename: str, box: Tuple, output: Optional[str] = None):
         """
         对图片进行裁剪
         :param filename: 原始图片地址
@@ -101,15 +98,4 @@ class Driver:
             img.save(output)
 
 
-if __name__ == "__main__":
-    d = Driver()
-
-    u = "https://www.xzw.com/fortune/cancer/"
-    f = "../var/xinzuowu.png"
-    _class = "c_main"
-    d.save_screenshot(u, f, _class, height=535)
-
-    u = "http://wufazhuce.com/"
-    f = "../var/one.png"
-    _class = "carousel-inner"
-    d.save_screenshot(u, f, _class)
+webdriver = Driver()
