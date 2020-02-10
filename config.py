@@ -17,6 +17,9 @@ ONE_URL = "http://wufazhuce.com/"
 # says
 HITOKOTO_URL = "https://v1.hitokoto.cn/?type=b"
 
+# custom says
+CONTENT_TITLE = ""
+
 try:
     from local_settings import *
 except ImportError:

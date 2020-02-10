@@ -27,7 +27,10 @@ def render_html() -> str:
     # 获取天气信息
     with WeatherCrawler() as wea:
         wea: WeatherCrawler
-        content.title = f"早安，{wea.get_tips()}"
+        if not config.CONTENT_TITLE:
+            content.title = f"早安，{wea.get_tips()}"
+        else:
+            content.title = config.CONTENT_TITLE
         weather_data = wea.get_days_wea()
 
     # 获取截图
