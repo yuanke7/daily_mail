@@ -19,6 +19,7 @@ HITOKOTO_URL = "https://v1.hitokoto.cn/?type=b"
 
 # custom says
 CONTENT_TITLE = ""
+EMAIL_SUBJECT = "嘿"
 
 try:
     from local_settings import *

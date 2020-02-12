@@ -109,7 +109,7 @@ def send_email(html):
     message["From"] = _format_address("Ik", config.sender)
     message["To"] = _format_address("柠柠", config.receiver)
 
-    subject = "嘿"
+    subject = config.EMAIL_SUBJECT
     message["Subject"] = Header(subject, "utf-8")
 
     try:
