@@ -38,6 +38,7 @@ def render_html() -> str:
 
     # 获取一言
     content.hitokoto_say = get_hitokoto_say()
+    print(f"获得一言： {content.hitokoto_say}")
 
     # 获取 one
     content.one_say = get_one_say()
@@ -68,9 +69,9 @@ def get_hitokoto_say() -> str:
 def get_one_say() -> str:
     today = datetime.today()
     if today.day % 2 == 0:
-        return "One Is Enough!"
+        return "ONE IS ALL"
     else:
-        return "一个，就够了！"
+        return "复杂世界里，一个就够了"
 
 
 def get_image_code() -> Image:
@@ -106,7 +107,7 @@ def send_email(html):
         return formataddr((Header(name, "utf-8").encode(), addr))
 
     message = MIMEText(html, "html", "utf-8")
-    message["From"] = _format_address("Ik", config.sender)
+    message["From"] = _format_address("Ikaros", config.sender)
     message["To"] = _format_address("柠柠", config.receiver)
 
     subject = config.EMAIL_SUBJECT
@@ -126,12 +127,13 @@ def handler():
     """
     流程处理函数
     """
-
+    print(f"Begin task at {datetime.now().isoformat()}")
     # HTML 文件
     html = render_html()
 
     # 下发邮件
     send_email(html)
+    print(f"End task at {datetime.now().isoformat()}")
 
 
 if __name__ == "__main__":

@@ -28,7 +28,6 @@ class Driver:
     def close(self) -> None:
         """ 关闭模拟浏览器 """
         if self.driver is not None:
-            print("Begin close...")
             self.driver.quit()
 
     def initial(self) -> None:
