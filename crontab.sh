@@ -1,1 +1,1 @@
-59 7 * * * python run.py >> /dev/null
+1 8 * * * python run.py >> /dev/null

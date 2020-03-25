@@ -2,6 +2,8 @@
     配置
 """
 
+sentry_dsn = ""
+
 sender = ""
 email_password = ""
 receiver = ""
