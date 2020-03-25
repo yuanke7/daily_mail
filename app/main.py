@@ -8,12 +8,15 @@ from email.header import Header
 from email.utils import formataddr
 
 import requests
+import sentry_sdk
 from jinja2 import Environment, PackageLoader
 
 import config
 from app.utils.entities import Content, Image
 from app.utils.weather_crawler import WeatherCrawler
 from app.utils.screenshot_lib import Driver
+
+sentry_sdk.init(dsn=config.sentry_dsn)
 
 
 def render_html() -> str:
@@ -129,7 +132,12 @@ def handler():
     """
     print(f"Begin task at {datetime.now().isoformat()}")
     # HTML 文件
-    html = render_html()
+    try:
+        html = render_html()
+    except Exception as e:
+        sentry_sdk.capture_exception(e)
+        print(f"Exception in render html. errors: {e}")
+        return False
 
     # 下发邮件
     send_email(html)
