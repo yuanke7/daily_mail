@@ -18,6 +18,7 @@ ONE_URL = "http://wufazhuce.com/"
 
 # says
 HITOKOTO_URL = "https://v1.hitokoto.cn/?type=b"
+JINRISHICI_URL = "https://v1.jinrishici.com/shuqing/aiqing"
 
 # custom says
 CONTENT_TITLE = ""

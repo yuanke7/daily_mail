@@ -43,8 +43,8 @@ def render_html() -> str:
     content.hitokoto_say = get_hitokoto_say()
     print(f"获得一言： {content.hitokoto_say}")
 
-    # 获取 one
-    content.one_say = get_one_say()
+    # 获取今日诗词
+    content.shici_say = get_gushici_say()
 
     # 生成 HTML 文件
     env = Environment(loader=PackageLoader("app"))
@@ -69,12 +69,18 @@ def get_hitokoto_say() -> str:
         return default_msg
 
 
-def get_one_say() -> str:
-    today = datetime.today()
-    if today.day % 2 == 0:
-        return "ONE IS ALL"
-    else:
-        return "复杂世界里，一个就够了"
+def get_gushici_say() -> str:
+    default_msg = "北方有佳人，绝世而独立。"
+    try:
+        resp = requests.get(config.JINRISHICI_URL)
+        if resp.status_code == 200:
+            data = resp.json()
+            return data["content"]
+        else:
+            return default_msg
+    except Exception as e:
+        print(f"Exception in get jinri shici, errors: {e}")
+        return default_msg
 
 
 def get_image_code() -> Image:

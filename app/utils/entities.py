@@ -36,5 +36,5 @@ class Image:
 @dataclass
 class Content:
     title: str = ""
-    one_say: str = ""
+    shici_say: str = ""
     hitokoto_say: str = ""
