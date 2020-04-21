@@ -24,6 +24,9 @@ JINRISHICI_URL = "https://v1.jinrishici.com/shuqing/aiqing"
 CONTENT_TITLE = ""
 EMAIL_SUBJECT = "嘿"
 
+# DB
+DB_PATH = "music.db"
+
 try:
     from local_settings import *
 except ImportError:
