@@ -3,6 +3,7 @@
 
     Refer: https://github.com/yangjianxin1/QQMusicSpider
 """
+import time
 import requests
 import sqlite3
 from requests.adapters import HTTPAdapter
@@ -57,14 +58,53 @@ def get_song_from_qq(singer_mid: str, offset: int, limit: int):
         return []
 
 
-def save_to_db():
-    pass
+def save_to_db(singer_mid, data):
+    now_time = int(time.time())
+    params = []
+    for song in data:
+        song_info = song["songInfo"]
+        item = [
+            song_info["mid"], singer_mid,
+            song_info["name"], song_info["title"], now_time
+        ]
+        params.append(item)
+
+    conn = sqlite3.connect(config.DB_PATH)
+    cursor = None
+    try:
+        cursor = conn.cursor()
+        cursor.executemany(
+            "INSERT INTO song(mid, singer_mid, name, title, created_at) "
+            "VALUES (?,?,?,?,?)",
+            params
+        )
+        conn.commit()
+        return True
+    except Exception as e:
+        conn.rollback()
+        print(f"Exception save data to db, errors: {e}")
+        return False
+    finally:
+        if cursor:
+            cursor.close()
+        conn.close()
 
 
 def handler():
-    data = get_song_from_qq("000Sp0Bz4JXH0o", 10, 10)
-    print(data)
+    singer_mid = "000Sp0Bz4JXH0o"
+    offset = 0
+    limit = 100
+    while 1:
+        data = get_song_from_qq(singer_mid, offset, limit)
+        if data:
+            st = save_to_db(singer_mid, data)
+            print(f"Save data for offset: {offset}, limit: {limit}, status: {st}")
+        else:
+            break
+
+        offset += limit
 
 
 if __name__ == '__main__':
-    init_db()
+    # init_db()
+    handler()

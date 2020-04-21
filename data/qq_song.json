@@ -1,0 +1,234 @@
+{
+  "code": 0,
+  "ts": 1587477230570,
+  "start_ts": 1587477230561,
+  "singerSongList": {
+    "code": 0,
+    "data": {
+      "singerMid": "0025NhlN2yWrP4",
+      "totalNum": 831,
+      "songList": [
+        {
+          "songInfo": {
+            "id": 97773,
+            "type": 0,
+            "mid": "0039MnYb0qxYhV",
+            "name": "晴天",
+            "title": "晴天",
+            "subtitle": "",
+            "singer": [
+              {
+                "id": 4558,
+                "mid": "0025NhlN2yWrP4",
+                "name": "周杰伦",
+                "title": "周杰伦",
+                "type": 0,
+                "uin": 0
+              }
+            ],
+            "album": {
+              "id": 8220,
+              "mid": "000MkMni19ClKG",
+              "name": "叶惠美",
+              "title": "叶惠美",
+              "subtitle": "",
+              "time_public": "2003-07-31",
+              "pmid": "000MkMni19ClKG_3"
+            },
+            "mv": {
+              "id": 293791,
+              "vid": "w0026q7f01a",
+              "name": "",
+              "title": "",
+              "vt": 0
+            },
+            "interval": 269,
+            "isonly": 1,
+            "language": 0,
+            "genre": 1,
+            "index_cd": 0,
+            "index_album": 3,
+            "time_public": "2003-07-31",
+            "status": 0,
+            "fnote": 4009,
+            "file": {
+              "media_mid": "002202B43Cq4V4",
+              "size_24aac": 0,
+              "size_48aac": 1644265,
+              "size_96aac": 3291622,
+              "size_192ogg": 5864688,
+              "size_192aac": 6528081,
+              "size_128mp3": 4317292,
+              "size_320mp3": 10792516,
+              "size_ape": 0,
+              "size_flac": 31430142,
+              "size_dts": 0,
+              "size_try": 960887,
+              "try_begin": 84339,
+              "try_end": 142856,
+              "url": "",
+              "size_hires": 0,
+              "hires_sample": 0,
+              "hires_bitdepth": 0,
+              "b_30s": 0,
+              "e_30s": 60000,
+              "size_96ogg": 2929888
+            },
+            "pay": {
+              "pay_month": 1,
+              "price_track": 200,
+              "price_album": 0,
+              "pay_play": 1,
+              "pay_down": 1,
+              "pay_status": 0,
+              "time_free": 0
+            },
+            "action": {
+              "switch": 17405185,
+              "msgid": 13,
+              "alert": 41,
+              "icons": 4472700,
+              "msgshare": 0,
+              "msgfav": 0,
+              "msgdown": 0,
+              "msgpay": 6
+            },
+            "ksong": {
+              "id": 8606,
+              "mid": "000oBPpd23GbIo"
+            },
+            "volume": {
+              "gain": -7.502,
+              "peak": 1,
+              "lra": 3.835
+            },
+            "label": "4611686018435776513",
+            "url": "",
+            "bpm": 68,
+            "version": 0,
+            "trace": "",
+            "data_type": 0,
+            "modify_stamp": 0,
+            "pingpong": "",
+            "aid": 0,
+            "ppurl": "",
+            "tid": 0,
+            "ov": 0,
+            "sa": 0,
+            "es": ""
+          }
+        },
+        {
+          "songInfo": {
+            "id": 102066257,
+            "type": 0,
+            "mid": "002hXDfk0LX9KO",
+            "name": "听妈妈的话",
+            "title": "听妈妈的话",
+            "subtitle": "",
+            "singer": [
+              {
+                "id": 4558,
+                "mid": "0025NhlN2yWrP4",
+                "name": "周杰伦",
+                "title": "周杰伦",
+                "type": 0,
+                "uin": 0
+              }
+            ],
+            "album": {
+              "id": 13004,
+              "mid": "002jLGWe16Tf1H",
+              "name": "依然范特西",
+              "title": "依然范特西",
+              "subtitle": "",
+              "time_public": "2006-09-05",
+              "pmid": "002jLGWe16Tf1H_1"
+            },
+            "mv": {
+              "id": 198569,
+              "vid": "u0012xltd8y",
+              "name": "",
+              "title": "",
+              "vt": 0
+            },
+            "interval": 265,
+            "isonly": 1,
+            "language": 0,
+            "genre": 1,
+            "index_cd": 0,
+            "index_album": 2,
+            "time_public": "2006-09-05",
+            "status": 0,
+            "fnote": 4009,
+            "file": {
+              "media_mid": "001xBKNG31ggyO",
+              "size_24aac": 0,
+              "size_48aac": 1614174,
+              "size_96aac": 3238505,
+              "size_192ogg": 6430864,
+              "size_192aac": 6436053,
+              "size_128mp3": 4250429,
+              "size_320mp3": 10625769,
+              "size_ape": 0,
+              "size_flac": 31385885,
+              "size_dts": 0,
+              "size_try": 960887,
+              "try_begin": 51243,
+              "try_end": 92266,
+              "url": "",
+              "size_hires": 0,
+              "hires_sample": 0,
+              "hires_bitdepth": 0,
+              "b_30s": 0,
+              "e_30s": 60000,
+              "size_96ogg": 3147079
+            },
+            "pay": {
+              "pay_month": 1,
+              "price_track": 200,
+              "price_album": 0,
+              "pay_play": 1,
+              "pay_down": 1,
+              "pay_status": 0,
+              "time_free": 0
+            },
+            "action": {
+              "switch": 17405185,
+              "msgid": 13,
+              "alert": 41,
+              "icons": 4472700,
+              "msgshare": 0,
+              "msgfav": 0,
+              "msgdown": 0,
+              "msgpay": 6
+            },
+            "ksong": {
+              "id": 10120,
+              "mid": "004QKRrA2FxnAE"
+            },
+            "volume": {
+              "gain": -8.458,
+              "peak": 1,
+              "lra": 2.19
+            },
+            "label": "4611686018435776513",
+            "url": "",
+            "bpm": 93,
+            "version": 0,
+            "trace": "",
+            "data_type": 0,
+            "modify_stamp": 0,
+            "pingpong": "",
+            "aid": 0,
+            "ppurl": "",
+            "tid": 0,
+            "ov": 0,
+            "sa": 0,
+            "es": ""
+          }
+        }
+      ]
+    }
+  }
+}
