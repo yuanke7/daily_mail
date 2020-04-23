@@ -2,12 +2,23 @@
     Get singer songs by qq music.
 
     Refer: https://github.com/yangjianxin1/QQMusicSpider
+
+    ``` bash
+    cd crawler/qq_music
+    python crawler.py initdb
+    python crawler.py crawler -s {singer_mid}
+    ```
+
 """
-import time
-import requests
 import sqlite3
+import sys
+import time
+
+import click
+import requests
 from requests.adapters import HTTPAdapter
 
+sys.path.append("../../")
 import config
 
 session = requests.Session()
@@ -17,7 +28,7 @@ session.mount('https://', adapters)
 SONG_BY_SINGER_URL = "https://u.y.qq.com/cgi-bin/musicu.fcg?data=%7B%22comm%22%3A%7B%22ct%22%3A24%2C%22cv%22%3A0%7D%2C%22singerSongList%22%3A%7B%22method%22%3A%22GetSingerSongList%22%2C%22param%22%3A%7B%22order%22%3A1%2C%22singerMid%22%3A%22{singer_mid}%22%2C%22begin%22%3A{begin}%2C%22num%22%3A{num}%7D%2C%22module%22%3A%22musichall.song_list_server%22%7D%7D"
 
 
-def init_db():
+def init_db(filename):
     table_sql = """CREATE TABLE `song`(
     id INT PRIMARY KEY,
     mid VARCHAR(100)  NOT NULL,
@@ -26,7 +37,10 @@ def init_db():
     title VARCHAR(255) NOT NULL,
     created_at INT NOT NULL)"""
 
-    conn = sqlite3.connect(config.DB_PATH)
+    if filename is None:
+        filename = config.DB_PATH
+
+    conn = sqlite3.connect(filename)
     cursor = conn.cursor()
     cursor.execute(table_sql)
     cursor.close()
@@ -58,7 +72,7 @@ def get_song_from_qq(singer_mid: str, offset: int, limit: int):
         return []
 
 
-def save_to_db(singer_mid, data):
+def save_to_db(filename, singer_mid, data):
     now_time = int(time.time())
     params = []
     for song in data:
@@ -69,7 +83,7 @@ def save_to_db(singer_mid, data):
         ]
         params.append(item)
 
-    conn = sqlite3.connect(config.DB_PATH)
+    conn = sqlite3.connect(filename)
     cursor = None
     try:
         cursor = conn.cursor()
@@ -90,21 +104,47 @@ def save_to_db(singer_mid, data):
         conn.close()
 
 
-def handler():
-    singer_mid = "000Sp0Bz4JXH0o"
+def handler(filename, singer_mid):
     offset = 0
     limit = 100
     while 1:
         data = get_song_from_qq(singer_mid, offset, limit)
         if data:
-            st = save_to_db(singer_mid, data)
-            print(f"Save data for offset: {offset}, limit: {limit}, status: {st}")
+            st = save_to_db(filename, singer_mid, data)
+            click.echo(f"Save data for offset: {offset}, limit: {limit}, status: {st}")
         else:
             break
 
         offset += limit
+    return True
+
+
+@click.group()
+def cli():
+    pass
+
+
+@cli.command(help="Initial database")
+@click.option("--filename", "-f", default=None)
+def initdb(filename):
+    click.echo("Begin to initial db.")
+    init_db(filename)
+    click.echo("Finished initial.")
+
+
+@cli.command(help="Crawler music for singer")
+@click.option("--filename", "-f", default=None)
+@click.option("--singer", "-s", help="The singer mid", default=None)
+def crawler(filename, singer):
+    if singer is None:
+        click.echo("You must need provide singer mid!")
+        return
+
+    if filename is None:
+        filename = config.DB_PATH
+
+    handler(filename, singer)
 
 
 if __name__ == '__main__':
-    # init_db()
-    handler()
+    cli()
