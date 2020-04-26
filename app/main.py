@@ -104,7 +104,7 @@ def get_image_code() -> Image:
             url=config.XINGZUOWU_URL,
             filename=xzw_filename,
             class_name="c_main",
-            height=535,  # 写死的高度
+            xzw=True
         )
         img.xingzuowu = f"data:image/png;base64,{webdriver.to_base64(xzw_filename)}"
 
