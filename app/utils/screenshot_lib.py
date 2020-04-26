@@ -36,14 +36,15 @@ class Driver:
         self.driver = Chrome(executable_path=self.driver_path, options=options)
 
     def save_screenshot(
-        self,
-        url: str,
-        filename: str,
-        class_name: Optional[str] = None,
-        top: Optional[int] = None,
-        left: Optional[int] = None,
-        width: Optional[int] = None,
-        height: Optional[int] = None,
+            self,
+            url: str,
+            filename: str,
+            class_name: Optional[str] = None,
+            top: Optional[int] = None,
+            left: Optional[int] = None,
+            width: Optional[int] = None,
+            height: Optional[int] = None,
+            xzw: bool = False
     ):
         """
         :param url: 访问地址
@@ -53,6 +54,7 @@ class Driver:
         :param left: 左
         :param width: 宽度
         :param height: 高度
+        :param xzw: xzw.com
         :return:
         """
         try:
@@ -60,8 +62,10 @@ class Driver:
             self.driver.set_window_size(1920, 1080)
             self.driver.save_screenshot(filename)
             if class_name is not None:
-
                 elem = self.driver.find_element_by_class_name(class_name)
+                if xzw:
+                    height = self.get_xzw_height(elem)
+
                 _left, _top = elem.location["x"], elem.location["y"]
                 size_w, size_h = elem.size["width"], elem.size["height"]
                 _right, _down = _left + size_w, _top + size_h
@@ -106,3 +110,15 @@ class Driver:
         """
         with open(filename, "rb") as f:
             return base64.b64encode(f.read()).decode("utf-8")
+
+    @staticmethod
+    def get_xzw_height(c_main):
+        """
+        URL https://www.xzw.com/fortune/cancer/
+
+        Returns: int
+        """
+        top_height = c_main.find_element_by_class_name("top").size["height"]
+        dl_height = c_main.find_element_by_tag_name("dl").size["height"]
+        cont_height = c_main.find_element_by_class_name("c_cont").size["height"]
+        return top_height + dl_height + cont_height
