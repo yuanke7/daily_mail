@@ -62,10 +62,11 @@ class Driver:
             self.driver.set_window_size(1920, 1080)
             self.driver.save_screenshot(filename)
             if class_name is not None:
+                top_offset = 0
                 elem = self.driver.find_element_by_class_name(class_name)
                 if xzw:
                     height = self.get_xzw_height(elem)
-
+                    top_offset = self.get_xzw_top_offset(elem)
                 _left, _top = elem.location["x"], elem.location["y"]
                 size_w, size_h = elem.size["width"], elem.size["height"]
                 _right, _down = _left + size_w, _top + size_h
@@ -79,7 +80,7 @@ class Driver:
                 if height is not None:
                     _down = _top + height
 
-                box = (_left, _top, _right, _down)
+                box = (_left, _top + top_offset, _right, _down)
                 self.img_crop(filename, box)
         except Exception as e:
             print(f"Exception in screenshot. errors: {e}")
@@ -122,3 +123,13 @@ class Driver:
         dl_height = c_main.find_element_by_tag_name("dl").size["height"]
         cont_height = c_main.find_element_by_class_name("c_cont").size["height"]
         return top_height + dl_height + cont_height
+
+    @staticmethod
+    def get_xzw_top_offset(c_main):
+        """
+        URL https://www.xzw.com/fortune/cancer/
+
+        Returns: int
+        """
+        top_height = c_main.find_element_by_class_name("top").size["height"]
+        return top_height
