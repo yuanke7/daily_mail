@@ -7,6 +7,7 @@ from typing import Optional, Tuple
 from PIL import Image
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.remote.webelement import WebElement
 
 
 class Driver:
@@ -113,7 +114,7 @@ class Driver:
             return base64.b64encode(f.read()).decode("utf-8")
 
     @staticmethod
-    def get_xzw_height(c_main):
+    def get_xzw_height(c_main: WebElement) -> int:
         """
         URL https://www.xzw.com/fortune/cancer/
 
@@ -125,7 +126,7 @@ class Driver:
         return top_height + dl_height + cont_height
 
     @staticmethod
-    def get_xzw_top_offset(c_main):
+    def get_xzw_top_offset(c_main: WebElement) -> int:
         """
         URL https://www.xzw.com/fortune/cancer/
 
