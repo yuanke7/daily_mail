@@ -1,13 +1,10 @@
 #!/usr/bin/env bash
 
 # 获取当前存在的 docker 容器
-container_ids=($(docker ps -a | awk '{print $1}'))
+mapfile -t container_ids < <((docker ps -a -q | awk '{print $1}'))
 
-for cid in ${container_ids}; do
-  if [ "${cid}" = "CONTAINER" ]; then
-    continue
-  else
-    docker start "${cid}"
-    echo "Started container: ${cid}"
-  fi
+# 重新启动实例
+for cid in "${container_ids[@]}"; do
+  docker start "${cid}"
+  echo "Started container: ${cid}"
 done
