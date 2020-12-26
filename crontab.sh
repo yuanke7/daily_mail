@@ -1,8 +1,4 @@
 # auto email
-30 7 * * * python run.py > /dev/null 2>&1 &
+16 7 * * 1-5 path/to/run.sh >> path/to/auto-mail/var/send.log 2>&1 &
 
-# stop now docker
-20 7 * * * ./scripts/service_stop.sh > /dev/null 2>&1 &
-
-# start stopped docker
-5 12 * * * ./scripts/service_start.sh > /dev/null 2>&1 &
+21 11 * * 6,0 path/to/run.sh >> path/to/var/send.log 2>&1 &
