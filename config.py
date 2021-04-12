@@ -26,6 +26,10 @@ EMAIL_SUBJECT = "嘿"
 
 # DB
 DB_PATH = "music.db"
+PG_HOST = "127.0.0.1"
+PG_USER = "ikaros"
+PG_PASSWORD = "123456"
+PG_DB = "love_db"
 
 try:
     from local_settings import *

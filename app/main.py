@@ -2,11 +2,12 @@
     拼接并发送邮件
 """
 import smtplib
-from datetime import datetime
+from datetime import datetime, date
 from email.mime.text import MIMEText
 from email.header import Header
 from email.utils import formataddr
 
+import psycopg2
 import requests
 import sentry_sdk
 from jinja2 import Environment, PackageLoader
@@ -17,6 +18,46 @@ from app.utils.weather_crawler import WeatherCrawler
 from app.utils.screenshot_lib import Driver
 
 sentry_sdk.init(dsn=config.sentry_dsn)
+
+
+def get_edm_config():
+    day = date.today().isoformat()
+    conn = psycopg2.connect(
+        database="testdb", user="postgres",
+        password="pass123", host="127.0.0.1"
+    )
+    with conn.cursor() as cur:
+        cur.execute(
+            "SELECT subject,title FROM official_edmconfig "
+            "WHERE day=%s;",
+            (day,)
+        )
+        row = cur.fetchone()
+        if row:
+            return row
+    conn.close()
+    return "", ""
+
+
+def update_edm_config(poetry, hitokoto):
+    day = date.today().isoformat()
+    conn = psycopg2.connect(
+        database="testdb", user="postgres",
+        password="pass123", host="127.0.0.1"
+    )
+    try:
+        with conn.cursor() as cur:
+            cur.execute(
+                "UPDATE official_edmconfig SET poetry=%s,hitokoto=%s "
+                "WHERE day=%s;",
+                (poetry, hitokoto, day)
+            )
+            conn.commit()
+    except Exception as e:
+        conn.rollback()
+        print(f"Update db error: {e}")
+    finally:
+        conn.close()
 
 
 def render_html() -> str:
@@ -30,10 +71,11 @@ def render_html() -> str:
     # 获取天气信息
     with WeatherCrawler() as wea:
         wea: WeatherCrawler
-        if not config.CONTENT_TITLE:
+        _, title = get_edm_config()
+        if not title:
             content.title = f"早安，{wea.get_tips()}"
         else:
-            content.title = config.CONTENT_TITLE
+            content.title = title
         weather_data = wea.get_days_wea()
 
     # 获取截图
@@ -45,6 +87,8 @@ def render_html() -> str:
 
     # 获取今日诗词
     content.shici_say = get_gushici_say()
+
+    update_edm_config(poetry=content.shici_say, hitokoto=content.hitokoto_say)
 
     # 生成 HTML 文件
     env = Environment(loader=PackageLoader("app"))
@@ -119,7 +163,9 @@ def send_email(html):
     message["From"] = _format_address("Ikaros", config.sender)
     message["To"] = _format_address("柠柠", config.receiver)
 
-    subject = config.EMAIL_SUBJECT
+    subject, _ = get_edm_config()
+    if not subject:
+        subject = "玲玲大宝宝"
     message["Subject"] = Header(subject, "utf-8")
 
     try:
