@@ -23,8 +23,8 @@ sentry_sdk.init(dsn=config.sentry_dsn)
 def get_edm_config():
     day = date.today().isoformat()
     conn = psycopg2.connect(
-        database="testdb", user="postgres",
-        password="pass123", host="127.0.0.1"
+        database=config.PG_DB, user=config.PG_USER,
+        password=config.PG_PASSWORD, host=config.PG_HOST
     )
     with conn.cursor() as cur:
         cur.execute(
@@ -42,8 +42,8 @@ def get_edm_config():
 def update_edm_config(poetry, hitokoto):
     day = date.today().isoformat()
     conn = psycopg2.connect(
-        database="testdb", user="postgres",
-        password="pass123", host="127.0.0.1"
+        database=config.PG_DB, user=config.PG_USER,
+        password=config.PG_PASSWORD, host=config.PG_HOST
     )
     try:
         with conn.cursor() as cur:
