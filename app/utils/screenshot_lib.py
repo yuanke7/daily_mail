@@ -45,7 +45,8 @@ class Driver:
             left: Optional[int] = None,
             width: Optional[int] = None,
             height: Optional[int] = None,
-            xzw: bool = False
+            xzw: bool = False,
+            one: bool = False,
     ):
         """
         :param url: 访问地址
@@ -56,11 +57,15 @@ class Driver:
         :param width: 宽度
         :param height: 高度
         :param xzw: xzw.com
+        :param one: one
         :return:
         """
         try:
             self.driver.get(url=url)
             self.driver.set_window_size(1920, 1080)
+            # one delete
+            if one:
+                self.delete_one_carousel_control()
             self.driver.save_screenshot(filename)
             if class_name is not None:
                 top_offset = 0
@@ -134,3 +139,10 @@ class Driver:
         """
         top_height = c_main.find_element_by_class_name("top").size["height"]
         return top_height
+
+    def delete_one_carousel_control(self) -> None:
+        """
+        :return:
+        """
+        self.driver.execute_script("""document.querySelector(".left.carousel-control").remove();""")
+        self.driver.execute_script("""document.querySelector(".right.carousel-control").remove();""")

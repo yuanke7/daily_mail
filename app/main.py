@@ -137,7 +137,8 @@ def get_image_code() -> Image:
     one_filename = f"{config.IMAGE_FILE_PATH}/one.png"
     with Driver() as webdriver:
         webdriver.save_screenshot(
-            url=config.ONE_URL, filename=one_filename, class_name="carousel-inner"
+            url=config.ONE_URL, filename=one_filename, class_name="carousel-inner",
+            one=True,
         )
         img.one = f"data:image/png;base64,{webdriver.to_base64(one_filename)}"
 
