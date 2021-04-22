@@ -73,9 +73,10 @@ def render_html() -> str:
         wea: WeatherCrawler
         _, title = get_edm_config()
         if not title:
-            content.title = f"早安，{wea.get_tips()}"
+            content.title = f"早安，亲爱的你"
         else:
             content.title = title
+        wea_tips = wea.get_tips()
         weather_data = wea.get_days_wea()
 
     # 获取截图
@@ -94,7 +95,8 @@ def render_html() -> str:
     env = Environment(loader=PackageLoader("app"))
     template = env.get_template("hei.html")
     html_content = template.render(
-        content=content, weather_data=weather_data, image=image
+        content=content, weather_data=weather_data, image=image,
+        wea_tips=wea_tips,
     )
     return html_content
 

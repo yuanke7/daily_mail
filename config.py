@@ -20,10 +20,6 @@ ONE_URL = "http://wufazhuce.com/"
 HITOKOTO_URL = "https://v1.hitokoto.cn/?type=b"
 JINRISHICI_URL = "https://v1.jinrishici.com/shuqing/aiqing"
 
-# custom says
-CONTENT_TITLE = ""
-EMAIL_SUBJECT = "嘿"
-
 # DB
 DB_PATH = "music.db"
 PG_HOST = "127.0.0.1"
