@@ -76,7 +76,7 @@ def render_html() -> str:
             content.title = f"早安，亲爱的你"
         else:
             content.title = title
-        wea_tips = wea.get_tips()
+        wea_tips = wea.get_tips() or "快来看今天的天气呀"
         weather_data = wea.get_days_wea()
 
     # 获取截图

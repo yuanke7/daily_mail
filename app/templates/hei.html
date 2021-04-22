@@ -8,9 +8,12 @@
 </head>
 <body>
 <div style="width:100%; margin: 0 auto;color:#5f5e5e;text-align:center">
-    <span style="display:block;color:#676767;font-size:20px">{{ content.title }}</span>
-    <span style="display:block;margin-top:15px;color:#676767;font-size:15px">{{ wea_tips }}</span>
 
+    <!-- 标题 -->
+    <span style="display:block;color:#676767;font-size:20px">{{ content.title }}</span>
+
+    <!-- 天气信息 -->
+    <span style="display:block;margin-top:15px;color:#676767;font-size:15px">{{ wea_tips }}</span>
     {% for weather in weather_data %}
     <div style="display: flex;margin-top:10px;height: 30px;line-height: 30px;justify-content: space-around;align-items: center;">
         <span style="width:15%; text-align:center;">{{ weather.day }}</span>
@@ -26,19 +29,18 @@
     </div>
     {% endfor %}
 
-
     <div style="text-align:center;margin:35px 0;">
+        <!-- 今日诗词 -->
         <span style="display:block;margin-top:55px;color:#676767;font-size:15px">{{ content.shici_say }}</span>
 
-        <img style="width:100%;margin-top:20px;"
-             src="{{ image.xingzuowu }}"
-             alt="xingzuowu">
+        <!-- 星座信息 -->
+        <img style="width:100%;margin-top:20px;" src="{{ image.xingzuowu }}"  alt="xingzuowu">
 
+        <!-- 一言 -->
         <span style="display:block;margin-top:55px;color:#676767;font-size:15px">{{ content.hitokoto_say }}</span>
 
-        <img style="width:100%;margin-top:20px;"
-             src="{{ image.one }}"
-             alt="one">
+        <!-- 一个 -->
+        <img style="width:100%;margin-top:20px;" src="{{ image.one }}" alt="one">
     </div>
 </div>
 </body>
