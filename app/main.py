@@ -6,6 +6,7 @@ from datetime import datetime, date
 from email.mime.text import MIMEText
 from email.header import Header
 from email.utils import formataddr
+from pathlib import Path
 
 import psycopg2
 import requests
@@ -189,6 +190,13 @@ def handler():
     # HTML 文件
     try:
         html = render_html()
+        # 存储一下每日的html源
+        month = date.today().strftime("%Y%m")
+        p = Path(config.IMAGE_FILE_PATH) / month
+        if not p.exists():
+            p.mkdir(parents=True)
+        with open(f"{p}/{date.today().isoformat()}.html", "w") as f:
+            f.write(html)
     except Exception as e:
         sentry_sdk.capture_exception(e)
         print(f"Exception in render html. errors: {e}")
