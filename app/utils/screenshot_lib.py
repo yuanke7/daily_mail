@@ -8,15 +8,13 @@ from PIL import Image
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.remote.webelement import WebElement
+from config import DEFAULT_DRIVER
 
 
 class Driver:
     """ WebDriver instance """
-
-    DEFAULT_DRIVER = "chromedriver"
-
     def __init__(self):
-        self.driver_path: str = self.DEFAULT_DRIVER
+        self.driver_path: str = DEFAULT_DRIVER
         self.driver: Optional[Chrome] = None
         self.initial()
 

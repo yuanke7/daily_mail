@@ -1,6 +1,7 @@
 """
     拼接并发送邮件
 """
+import random
 import smtplib
 from datetime import datetime, date
 from email.mime.text import MIMEText
@@ -10,15 +11,12 @@ from pathlib import Path
 
 import psycopg2
 import requests
-import sentry_sdk
 from jinja2 import Environment, PackageLoader
 
 import config
 from app.utils.entities import Content, Image
 from app.utils.weather_crawler import WeatherCrawler
 from app.utils.screenshot_lib import Driver
-
-sentry_sdk.init(dsn=config.sentry_dsn)
 
 
 def get_edm_config():
@@ -72,11 +70,11 @@ def render_html() -> str:
     # 获取天气信息
     with WeatherCrawler() as wea:
         wea: WeatherCrawler
-        _, title = get_edm_config()
-        if not title:
-            content.title = f"早安，亲爱的你"
-        else:
-            content.title = title
+        # _, title = get_edm_config()
+        # if not title:
+        content.title = f"早安，亲爱的你"
+        # else:
+        #     content.title = title
         wea_tips = wea.get_tips() or "快来看今天的天气呀"
         weather_data = wea.get_days_wea()
 
@@ -90,7 +88,7 @@ def render_html() -> str:
     # 获取今日诗词
     content.shici_say = get_gushici_say()
 
-    update_edm_config(poetry=content.shici_say, hitokoto=content.hitokoto_say)
+    # update_edm_config(poetry=content.shici_say, hitokoto=content.hitokoto_say)
 
     # 生成 HTML 文件
     env = Environment(loader=PackageLoader("app"))
@@ -164,22 +162,19 @@ def send_email(html):
         return formataddr((Header(name, "utf-8").encode(), addr))
 
     message = MIMEText(html, "html", "utf-8")
-    message["From"] = _format_address("Ikaros", config.sender)
-    message["To"] = _format_address("柠柠", config.receiver)
+    message["From"] = _format_address(config.sender_name, config.sender)
+    message["To"] = _format_address(config.receiver_name, config.receiver)
 
-    subject, _ = get_edm_config()
-    if not subject:
-        subject = "玲玲大宝宝"
+    # subject, _ = get_edm_config()
+    # if not subject:
+    subject = f"早安，{random.choice(config.NICK_NAME)}"
     message["Subject"] = Header(subject, "utf-8")
 
-    try:
-        smtp_obj = smtplib.SMTP("smtp.qq.com", port=587)
-        smtp_obj.ehlo("smtp.qq.com")
-        smtp_obj.login(config.sender, config.email_password)
-        smtp_obj.sendmail(config.sender, [config.receiver], message.as_string())
-        print("邮件发送成功")
-    except smtplib.SMTPException:
-        print("Error: 无法发送邮件")
+    smtp_obj = smtplib.SMTP("smtp.qq.com", port=587)
+    smtp_obj.ehlo("smtp.qq.com")
+    smtp_obj.login(config.sender, config.email_password)
+    smtp_obj.sendmail(config.sender, [config.receiver], message.as_string())
+    print("邮件发送成功")
 
 
 def handler():
@@ -188,20 +183,14 @@ def handler():
     """
     print(f"Begin task at {datetime.now().isoformat()}")
     # HTML 文件
-    try:
-        html = render_html()
-        # 存储一下每日的html源
-        month = date.today().strftime("%Y%m")
-        p = Path(config.IMAGE_FILE_PATH) / month
-        if not p.exists():
-            p.mkdir(parents=True)
-        with open(f"{p}/{date.today().isoformat()}.html", "w") as f:
-            f.write(html)
-    except Exception as e:
-        sentry_sdk.capture_exception(e)
-        print(f"Exception in render html. errors: {e}")
-        return False
-
+    html = render_html()
+    # 存储一下每日的html源
+    month = date.today().strftime("%Y%m")
+    p = Path(config.IMAGE_FILE_PATH) / month
+    if not p.exists():
+        p.mkdir(parents=True)
+    with open(f"{p}/{date.today().isoformat()}.html", "w") as f:
+        f.write(html)
     # 下发邮件
     send_email(html)
     print(f"End task at {datetime.now().isoformat()}")
