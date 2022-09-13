@@ -9,7 +9,6 @@ from email.header import Header
 from email.utils import formataddr
 from pathlib import Path
 
-import psycopg2
 import requests
 from jinja2 import Environment, PackageLoader
 
