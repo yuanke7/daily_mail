@@ -6,7 +6,7 @@ sentry_dsn = ""
 
 sender = ""
 email_password = ""
-receiver = ""
+receiver = []
 sender_name = ""
 receiver_name = ""
 constellation = ''
