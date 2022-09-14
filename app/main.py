@@ -8,15 +8,14 @@ from email.mime.text import MIMEText
 from email.header import Header
 from email.utils import formataddr
 from pathlib import Path
-
 import requests
 from jinja2 import Environment, PackageLoader
+from loguru import logger
 
 import config
 from app.utils.entities import Content, Image
 from app.utils.weather_crawler import WeatherCrawler
 from app.utils.screenshot_lib import Driver
-
 
 def get_edm_config():
     day = date.today().isoformat()
@@ -82,7 +81,7 @@ def render_html() -> str:
 
     # 获取一言
     content.hitokoto_say = get_hitokoto_say()
-    print(f"获得一言： {content.hitokoto_say}")
+    logger.info(f"获得一言： {content.hitokoto_say}")
 
     # 获取今日诗词
     content.shici_say = get_gushici_say()
@@ -109,7 +108,7 @@ def get_hitokoto_say() -> str:
         else:
             return default_msg
     except Exception as e:
-        print(f"Exception in get hitokoto say, errors: {e}")
+        logger.error(f"Exception in get hitokoto say, errors: {e}")
         return default_msg
 
 
@@ -123,7 +122,7 @@ def get_gushici_say() -> str:
         else:
             return default_msg
     except Exception as e:
-        print(f"Exception in get jinri shici, errors: {e}")
+        logger.error(f"Exception in get jinri shici, errors: {e}")
         return default_msg
 
 
@@ -146,7 +145,7 @@ def get_image_code() -> Image:
     xzw_filename = f"{config.IMAGE_FILE_PATH}/xzw.png"
     with Driver() as webdriver:
         webdriver.save_screenshot(
-            url=config.XINGZUOWU_URL,
+            url=config.XINGZUOWU_URL + config.CONSTELLATION_MAP.get(config.constellation),
             filename=xzw_filename,
             class_name="c_main",
             xzw=True
@@ -173,14 +172,14 @@ def send_email(html):
     smtp_obj.ehlo("smtp.qq.com")
     smtp_obj.login(config.sender, config.email_password)
     smtp_obj.sendmail(config.sender, [config.receiver], message.as_string())
-    print("邮件发送成功")
+    logger.info("邮件发送成功")
 
 
 def handler():
     """
     流程处理函数
     """
-    print(f"Begin task at {datetime.now().isoformat()}")
+    logger.info(f"Begin task.")
     # HTML 文件
     html = render_html()
     # 存储一下每日的html源
@@ -192,7 +191,7 @@ def handler():
         f.write(html)
     # 下发邮件
     send_email(html)
-    print(f"End task at {datetime.now().isoformat()}")
+    logger.info(f"End task.")
 
 
 if __name__ == "__main__":

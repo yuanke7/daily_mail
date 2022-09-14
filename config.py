@@ -17,7 +17,12 @@ AREA = "china/beijing/haidian-district"
 
 # image
 IMAGE_FILE_PATH = "img"
-XINGZUOWU_URL = "https://www.xzw.com/fortune/scorpio/"
+CONSTELLATION_MAP = {'白羊': 'Aries', '金牛': 'Taurus', '双子': 'Gemini',
+                     '巨蟹': 'Cancer', '狮子': 'Leo', '处女': 'Virgo',
+                     '天秤': 'Libra', '天蝎': 'Scorpio', '射手': 'Sagittarius',
+                     '摩羯': 'Capricorn', '水瓶': 'Aquarius', '双鱼': 'Pisces'}
+constellation = ''
+XINGZUOWU_URL = "https://www.xzw.com/fortune/"
 ONE_URL = "http://wufazhuce.com/"
 
 # says
