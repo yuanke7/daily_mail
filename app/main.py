@@ -174,6 +174,24 @@ def send_email(html):
     smtp_obj.sendmail(config.sender, config.receiver, message.as_string())
     logger.info("邮件发送成功")
 
+def send_email_lottery(html):
+    def _format_address(name, addr):
+        return formataddr((Header(name, "utf-8").encode(), addr))
+
+    message = MIMEText(html, "html", "utf-8")
+    message["From"] = _format_address(config.sender_name, config.sender)
+    message["To"] = _format_address(config.receiver_name, config.receiver)
+
+    # subject, _ = get_edm_config()
+    # if not subject:
+    subject = f"早安，{random.choice(config.NICK_NAME)}"
+    message["Subject"] = Header(subject, "utf-8")
+
+    smtp_obj = smtplib.SMTP("smtp.qq.com", port=587)
+    smtp_obj.ehlo("smtp.qq.com")
+    smtp_obj.login(config.sender, config.email_password)
+    smtp_obj.sendmail(config.sender, config.receiver, message.as_string())
+    logger.info("邮件发送成功")
 
 def handler():
     """
