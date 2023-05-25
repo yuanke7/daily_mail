@@ -39,6 +39,6 @@ PG_DB = "love_db"
 DEFAULT_DRIVER = ""
 
 try:
-    from local_settings import *
+    from lottery_proj.local_settings import *
 except ImportError:
     pass

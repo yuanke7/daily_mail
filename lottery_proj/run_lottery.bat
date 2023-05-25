@@ -1,0 +1,1 @@
+"D:\Program Files\Python37\python37.exe" run.py
