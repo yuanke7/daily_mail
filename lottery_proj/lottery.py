@@ -260,7 +260,7 @@ class Lottery:
     #         """)
 
     def check_prize_of_shot(self, win_shot, my_shot, date):
-        res_info = ''
+        win_flag = True
 
         win_front_lst = win_shot.get('front')
         win_back_lst = win_shot.get('back')
@@ -312,7 +312,10 @@ class Lottery:
             res_info = info_string(9, '五')
             logger.debug(res_info)
             all_earned += 5
-        return res_info
+        else:
+            win_flag = False
+            res_info = info_string(0, 0)
+        return win_flag, res_info
 
     def check_latest_win_status(self, ):
         # 爬取最新结果与今日推荐号码比较

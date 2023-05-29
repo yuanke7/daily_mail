@@ -66,8 +66,8 @@ def check():
     for recv, items in data.items():
         win_info_lst = []
         for item in items:
-            win_info = ins.check_prize_of_shot(win_shot=win_shot, my_shot=item, date=today)
-            if win_info:
+            win_flag, win_info = ins.check_prize_of_shot(win_shot=win_shot, my_shot=item, date=today)
+            if win_flag:
                 win_info_lst.append(win_info)
 
         win_info_sum = '\n\n'.join(win_info_lst)
